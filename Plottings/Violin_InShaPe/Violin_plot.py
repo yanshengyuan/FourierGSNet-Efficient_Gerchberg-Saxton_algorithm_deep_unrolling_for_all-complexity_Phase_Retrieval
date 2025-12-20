@@ -11,7 +11,7 @@ plt.rcParams['savefig.dpi'] = 300
 
 metrics = ["MAE", "SSIM", "FRCM", "ReconsErr"]
 
-beamshape="Gaussian/"
+beamshape="Tear/"
 
 fig, axes = plt.subplots(1, 4, figsize=(28, 7))
 axes = axes.flatten()
