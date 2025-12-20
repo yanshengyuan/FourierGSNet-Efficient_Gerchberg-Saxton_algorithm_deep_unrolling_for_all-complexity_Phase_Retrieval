@@ -91,6 +91,7 @@ parser.add_argument('--wavelength', default=1e-10, type=float)
 parser.add_argument('--prop_dist', default=0.1, type=float)
 parser.add_argument('--val_vis_path', type=str)
 parser.add_argument('--log_features', default=False, type=bool)
+parser.add_argument('--num_layers', default=10, type=int)
 
 # Type checking
 args = parser.parse_args()
@@ -232,8 +233,8 @@ def main_worker(gpu, ngpus_per_node, args):
     
     gen_phase_init = (torch.rand((args.batch_size, H, W), device='cuda'))*2*torch.pi-torch.pi
     gs_phase_init = (torch.rand((args.batch_size, H, W), device='cuda'))*2*torch.pi-torch.pi
-    gs_intensity_init = (torch.rand((args.batch_size, H, W), device='cuda'))*255
-    model = PImodel(gen_phase_init, gs_phase_init, gs_intensity_init, args)
+    gs_intensity_init = (torch.rand((args.batch_size, H, W), device='cuda'))*4094
+    model = PImodel(gen_phase_init, gs_phase_init, gs_intensity_init, args, args.num_layers)
     print(model)
 
     if not torch.cuda.is_available() and not torch.backends.mps.is_available():
@@ -438,7 +439,7 @@ def train(train_loader, model, criterion, optimizer, epoch, device, args):
         Phi = Phi.to(device, non_blocking=True)
 
         # compute output
-        I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
+        #I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
         output = model(I_far).squeeze()
         if(len(output.shape)<=2):
             output=output.unsqueeze(0)
@@ -469,6 +470,7 @@ def validate(val_loader, model, criterion, args, epoch, output_dir):
             end = time.time()
             num_batch=0
             for x, (I, Phi, lightsource) in enumerate(loader):
+                #print(I.max())
                 #if(num_batch==1): break;
                 x = base_progress + x
                 if args.gpu is not None and torch.cuda.is_available():
@@ -483,13 +485,13 @@ def validate(val_loader, model, criterion, args, epoch, output_dir):
                 # compute output
                 if(num_batch==1):
                     start = time.perf_counter()
-                    I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
+                    #I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
                     output = model(I_far, epoch, num_batch, args.log_features, output_dir).squeeze()
                     end = time.perf_counter()
                     inf_time_list.append(end-start)
                 if(num_batch!=1):
                     start = time.perf_counter()
-                    I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
+                    #I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
                     output = model(I_far, epoch, num_batch, False, output_dir).squeeze()
                     end = time.perf_counter()
                     inf_time_list.append(end-start)
@@ -500,6 +502,18 @@ def validate(val_loader, model, criterion, args, epoch, output_dir):
                     I_far=I_far.unsqueeze(0)
                 if(len(Phi.shape)<=2):
                     Phi=Phi.unsqueeze(0)
+                '''
+                if(args.evaluate==True):
+                    for i in range(len(output)):
+                        outdata=output[i].squeeze()
+                        gtdata=Phi[i].squeeze().cpu()
+                        outdata=outdata.cpu()
+                        np.save(output_dir+'/Phi_pred/npy/'+str(x)+'_'+str(i)+'.npy', outdata)
+                        plt.imsave(output_dir+'/Phi_pred/img/'+str(x)+'_'+str(i)+'.png' ,outdata, cmap='gray')
+                        np.save(output_dir+'/Phi_gt/npy/'+str(x)+'_'+str(i)+'.npy', gtdata)
+                        plt.imsave(output_dir+'/Phi_gt/img/'+str(x)+'_'+str(i)+'.png' ,gtdata, cmap='gray')
+                '''
+                
                 for i in range(len(output)):
                     outdata=output[i].squeeze()
                     gtdata=Phi[i].squeeze().cpu()

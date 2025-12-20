@@ -20,6 +20,7 @@ class FFT_layer(nn.Module):
             Fourier_intensity = Fourier_intensity.unsqueeze(0)
         
         crop = Fourier_intensity[: ,317:445, 317:445]
+        crop = 255 * (crop - crop.min()) / (crop.max() - crop.min())
         
         Fourier_intensity = Fourier_intensity.unsqueeze(1)
         Fourier_intensity = f.interpolate(Fourier_intensity, size=(128, 128), mode='bilinear', align_corners=False)
@@ -27,10 +28,11 @@ class FFT_layer(nn.Module):
         #print(Fourier_intensity.shape)
         #plt.imsave("resized.png", Fourier_intensity[0].detach().cpu().numpy(), cmap='gray')
         #plt.imsave("cropped.png", crop[0].detach().cpu().numpy(), cmap='gray')
-        
         Fourier_amp = torch.sqrt(Fourier_intensity)
+        
         Fourier_field = torch.fft.fft2(pupil_field)
         Fourier_field = torch.fft.fftshift(Fourier_field)
+        
         Fourier_real = Fourier_field.real
         Fourier_imag = Fourier_field.imag
         Fourier_phase = torch.angle(Fourier_field)
@@ -38,9 +40,10 @@ class FFT_layer(nn.Module):
         
         pupil_field = torch.fft.ifftshift(Fourier_field)
         pupil_field = torch.fft.ifft2(pupil_field)
+        
         pupil_phase = torch.angle(pupil_field)
         pupil_intensity = torch.abs(pupil_field)**2
-        pupil_intensity = torch.clamp(pupil_intensity, 0.0, 255)
+        pupil_intensity = torch.clamp(pupil_intensity, min=1e-12)
         pupil_amp = torch.sqrt(pupil_intensity)
         pupil_field = pupil_amp*torch.exp(pupil_phase * 1j)
         
