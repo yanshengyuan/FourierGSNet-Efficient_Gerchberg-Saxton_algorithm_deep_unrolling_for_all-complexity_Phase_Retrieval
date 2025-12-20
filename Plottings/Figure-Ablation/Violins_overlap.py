@@ -101,9 +101,9 @@ for idx, metric in enumerate(metrics):
         ])
 
     if(metric!='ReconsErr/'):
-        groups_gsnet = ['Chair', 'Tear', 'Rec-\nTophat', 'Tophat', 'Ring', 'Gaussian', 'X-\nray', 'RAF-\nCDI']
+        groups_gsnet = ['Chair', 'Tear', 'Rec-\nTophat', 'Tophat', 'Ring', 'Gauss-\nian', 'Phase-\nGAN', 'RAF-\nCDI']
         lengths_gsnet = [len(chair_gsnet), len(tear_gsnet), len(rec_gsnet), len(hat_gsnet), len(ring_gsnet), len(gauss_gsnet), len(xray_gsnet), len(raf_gsnet)]
-        groups_reg = ['Chair', 'Tear', 'RecTophat', 'Tophat', 'Ring', 'Gaussian', 'X-\nray', 'RAF-\nCDI']
+        groups_reg = ['Chair', 'Tear', 'RecTophat', 'Tophat', 'Ring', 'Gauss-\nian', 'Phase-\nGAN', 'RAF-\nCDI']
         lengths_reg = [len(chair_reg), len(tear_reg), len(rec_reg), len(hat_reg), len(ring_reg), len(gauss_reg), len(xray_reg), len(raf_reg)]
     else:
         groups_gsnet = ['Chair', 'Tear', 'RecTophat', 'Tophat', 'Ring', 'Gaussian']
