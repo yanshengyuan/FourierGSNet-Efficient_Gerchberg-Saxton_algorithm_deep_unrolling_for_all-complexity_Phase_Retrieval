@@ -1,0 +1,12 @@
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 2 --gpu 0 --lr 5e-4 --step_size 2 --seed 123 --pth_name 5e-4_2.pth.tar --val_vis_path 5e-4_2 > 5e-4_2.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 5 --gpu 0 --lr 5e-4 --step_size 2 --seed 123 --pth_name 5e-4_5.pth.tar --val_vis_path 5e-4_5 > 5e-4_5.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 10 --gpu 0 --lr 5e-4 --step_size 2 --seed 123 --pth_name 5e-4_10.pth.tar --val_vis_path 5e-4_10 > 5e-4_10.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 20 --gpu 0 --lr 5e-4 --step_size 2 --seed 123 --pth_name 5e-4_20.pth.tar --val_vis_path 5e-4_20 > 5e-4_20.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 50 --gpu 0 --lr 5e-4 --step_size 2 --seed 123 --pth_name 5e-4_50.pth.tar --val_vis_path 5e-4_50 > 5e-4_50.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 100 --gpu 0 --lr 5e-4 --step_size 2 --seed 123 --pth_name 5e-4_100.pth.tar --val_vis_path 5e-4_100 > 5e-4_100.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 2 --gpu 1 --lr 1e-3 --step_size 2 --seed 123 --pth_name 1e-3_2.pth.tar --val_vis_path 1e-3_2 > 1e-3_2.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 5 --gpu 1 --lr 1e-3 --step_size 2 --seed 123 --pth_name 1e-3_5.pth.tar --val_vis_path 1e-3_5 > 1e-3_5.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 10 --gpu 1 --lr 1e-3 --step_size 2 --seed 123 --pth_name 1e-3_10.pth.tar --val_vis_path 1e-3_10 > 1e-3_10.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 20 --gpu 1 --lr 1e-3 --step_size 2 --seed 123 --pth_name 1e-3_20.pth.tar --val_vis_path 1e-3_20 > 1e-3_20.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 50 --gpu 1 --lr 1e-3 --step_size 2 --seed 123 --pth_name 1e-3_50.pth.tar --val_vis_path 1e-3_50 > 1e-3_50.txt 2>&1 &
+nohup python3 train_SiSPRNet.py --data ../PhaseGAN_data --epochs 30 --batch_size 100 --gpu 1 --lr 1e-3 --step_size 2 --seed 123 --pth_name 1e-3_100.pth.tar --val_vis_path 1e-3_100 > 1e-3_100.txt 2>&1 &
