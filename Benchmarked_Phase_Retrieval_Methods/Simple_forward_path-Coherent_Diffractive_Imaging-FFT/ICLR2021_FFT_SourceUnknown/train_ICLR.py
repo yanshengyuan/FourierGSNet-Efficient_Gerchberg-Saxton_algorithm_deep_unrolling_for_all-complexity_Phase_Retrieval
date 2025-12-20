@@ -230,7 +230,7 @@ def main_worker(gpu, ngpus_per_node, args):
             torch.cuda.set_device(args.gpu)
     
     Phi_init = torch.zeros((args.batch_size, H, W), device='cuda')
-    Intensity_init = (torch.rand((args.batch_size, H, W), device='cuda'))*255
+    Intensity_init = (torch.rand((args.batch_size, H, W), device='cuda'))*4094
     
     defocus_kernel = np.load(args.data+'/Mask_defocus_200.npy')
     real = defocus_kernel.real.astype(np.float32)
@@ -444,7 +444,7 @@ def train(train_loader, model, criterion, optimizer, epoch, device, args):
         Phi = Phi.to(device, non_blocking=True)
 
         # compute output
-        I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
+        #I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
         output = model(I_far).squeeze()
         loss = criterion(output, Phi)
 
@@ -487,7 +487,7 @@ def validate(val_loader, model, criterion, args, epoch, output_dir):
 
                 # compute output
                 start = time.perf_counter()
-                I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
+                #I_far = 255 * (I_far - I_far.min()) / (I_far.max() - I_far.min())
                 output = model(I_far)
                 if(output.dim()==2):
                     output = output.unsqueeze(0)
@@ -496,19 +496,20 @@ def validate(val_loader, model, criterion, args, epoch, output_dir):
                 end = time.perf_counter()
                 inf_time_list.append(end-start)
                 num_batch += 1
-                for i in range(len(output)):
-                    outdata=output[i].squeeze()
-                    gtdata=Phi[i].squeeze().cpu()
-                    outdata=outdata.cpu()
-                    np.save(output_dir+'/Phi_pred/npy/'+str(x)+'_'+str(i)+'.npy', outdata)
-                    plt.imsave(output_dir+'/Phi_pred/img/'+str(x)+'_'+str(i)+'.png' ,outdata, cmap='gray')
-                    np.save(output_dir+'/Phi_gt/npy/'+str(x)+'_'+str(i)+'.npy', gtdata)
-                    plt.imsave(output_dir+'/Phi_gt/img/'+str(x)+'_'+str(i)+'.png' ,gtdata, cmap='gray')
-                    '''
-                    GTdata=I_far[i].squeeze().cpu()
-                    np.save(output_dir+'/I_gt/npy/'+str(x)+'_'+str(i)+'.npy', GTdata)
-                    plt.imsave(output_dir+'/I_gt/img/'+str(x)+'_'+str(i)+'.png' , GTdata, cmap='gray')
-                    '''
+                if(args.evaluate==True):
+                    for i in range(len(output)):
+                        outdata=output[i].squeeze()
+                        gtdata=Phi[i].squeeze().cpu()
+                        outdata=outdata.cpu()
+                        np.save(output_dir+'/Phi_pred/npy/'+str(x)+'_'+str(i)+'.npy', outdata)
+                        plt.imsave(output_dir+'/Phi_pred/img/'+str(x)+'_'+str(i)+'.png' ,outdata, cmap='gray')
+                        np.save(output_dir+'/Phi_gt/npy/'+str(x)+'_'+str(i)+'.npy', gtdata)
+                        plt.imsave(output_dir+'/Phi_gt/img/'+str(x)+'_'+str(i)+'.png' ,gtdata, cmap='gray')
+                        '''
+                        GTdata=I_far[i].squeeze().cpu()
+                        np.save(output_dir+'/I_gt/npy/'+str(x)+'_'+str(i)+'.npy', GTdata)
+                        plt.imsave(output_dir+'/I_gt/img/'+str(x)+'_'+str(i)+'.png' , GTdata, cmap='gray')
+                        '''
                 inf_time = np.array(inf_time_list)
                 np.save("GSNet_inf_time.npy", inf_time)
                     

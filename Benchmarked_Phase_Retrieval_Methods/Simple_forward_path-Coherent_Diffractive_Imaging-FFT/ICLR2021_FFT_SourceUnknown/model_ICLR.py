@@ -22,12 +22,13 @@ class FFT_layer(nn.Module):
             intens_far = intens_far.unsqueeze(0)
         
         crop = intens_far[: ,317:445, 317:445]
+        crop = 255 * (crop - crop.min()) / (crop.max() - crop.min())
         
         intens_far = intens_far.unsqueeze(1)
         intens_far = f.interpolate(intens_far, size=(128, 128), mode='bilinear', align_corners=False)
         intens_far = intens_far.squeeze()
         
-        intens_near = torch.clamp(intens_near, 0.0, 255)
+        intens_near = torch.clamp(intens_near, min=1e-12)
         near_amp = torch.sqrt(intens_near)
         near_field = near_amp*torch.exp(phase * 1j)
         near_field = near_field * angular_mask
