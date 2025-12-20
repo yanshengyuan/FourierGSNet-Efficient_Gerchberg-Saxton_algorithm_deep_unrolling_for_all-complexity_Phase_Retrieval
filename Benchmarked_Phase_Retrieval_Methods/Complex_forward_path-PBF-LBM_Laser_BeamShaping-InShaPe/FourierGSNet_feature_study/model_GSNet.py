@@ -25,13 +25,18 @@ class FFT_layer(nn.Module):
         
         Fourier_amp = torch.sqrt(Fourier_intensity)
         pupil_amp = torch.sqrt(pupil_intensity)
+        
         Fourier_field = torch.fft.fft2(pupil_field)
+        Fourier_field = torch.fft.fftshift(Fourier_field, dim=(-2,-1))
+        
         Fourier_real = Fourier_field.real
         Fourier_imag = Fourier_field.imag
         Fourier_phase = torch.angle(Fourier_field)
         Fourier_field = Fourier_amp*torch.exp(Fourier_phase * 1j)
         
+        Fourier_field = torch.fft.ifftshift(Fourier_field, dim=(-2,-1))
         pupil_field = torch.fft.ifft2(Fourier_field)
+        
         pupil_phase = torch.angle(pupil_field)
         pupil_field = pupil_amp*torch.exp(pupil_phase * 1j)
         
