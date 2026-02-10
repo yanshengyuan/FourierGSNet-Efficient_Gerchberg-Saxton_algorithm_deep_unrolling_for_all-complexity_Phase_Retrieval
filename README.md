@@ -6,9 +6,11 @@ Our paper: Efficient Gerchberg-Saxton algorithm deep unrolling for phase retriev
 
 <!-- Journal: Advanced Photonics of SPIE, USA. -->
 
-DOI:
+DOI: https://doi.org/10.1117/1.APN.5.2.026005
 
 Citation:
+
+Shengyuan Yan, Mike Holenderski, Nirvana Meratnia, "Efficient Gerchberg–Saxton algorithm deep unrolling for phase retrieval with a complex forward path," Adv. Photon. Nexus, 5(2), 026005. (2026)
 
 Acknowledgements:
 
