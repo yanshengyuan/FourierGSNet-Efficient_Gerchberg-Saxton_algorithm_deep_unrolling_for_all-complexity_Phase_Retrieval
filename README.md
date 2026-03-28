@@ -348,9 +348,9 @@ The simulation speed is 100~200 times faster than the original simulation
 | 250            | 112 seconds                            | 18254 MB                           |
 
 
-| **Batch size(fixed as 1)** | **28-core CPU single thread Runtime for simulating 10k samples** |
-|----------------------------|------------------------------------------------------------------|
-| 1                          | 22318 seconds                                                    |
+| **Batch size(bound as 1 by single thread on CPU)** | **28-core CPU single thread Runtime for simulating 10k samples** |
+|----------------------------------------------------|------------------------------------------------------------------|
+| 1                                                  | 22318 seconds                                                    |
 
 
 
